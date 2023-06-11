@@ -60,7 +60,9 @@
     --invalid-red: hsl(0, 100%, 67%);
     --bg-white: hsl(0, 0%, 100%);
     --page-white: hsl(0, 0%, 94%);
-    --font-black: Off black: hsl(0, 0%, 8%)
+    --hoverbtn-black: hsl(0, 0%, 8%);
+    --label-grey: hsl(0, 1%, 44%);
+    --line-grey: hsl(0, 0%, 86%);
 }
 
 body {
@@ -78,10 +80,9 @@ body {
 }
 
 .ageform-wrapper {
-    border-radius: 2rem;
-    border: 2px solid black;
+    border-radius: 2rem 2rem 8rem 2rem;
     background-color: var(--bg-white);
-    padding: 3rem;
+    padding: 2em;
 }
 
 .newline {
@@ -94,23 +95,79 @@ hr {
     flex: 1;
     border: none;
     height: 2px;
-    background: black;
+    background: var(--line-grey);
   }
 
-label, input {
-    display: inline-block;
+label {
+    font-family: Poppins;
+    font-size: 24px;
+    display: block;
+    color: var(--label-grey);
 }
 
-form > input {
-    max-width: 4.5em;
+.form-inputs {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 3rem;
+
+}
+
+.form-inputs  input {
+    max-width: 4em;
     font-family: PoppinsBold;
-    font-size: 48px;
+    font-size: 32px;
     padding: 10px;
 }
 
+input:focus {
+    border-color: var(--age-purple);
+}
+
+
+.results {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+
+.years-diff {
+    font-family: PoppinsXBItalic;
+    font-size: 48px;
+}
+
+.years-diff span {
+    color: var(--age-purple);
+    font-family: PoppinsXBItalic;
+    font-size: 72px;
+}
+
+button {
+    background-color: var(--age-purple);
+    padding: 1.5rem;
+    border-radius: 100vw;
+    border: none;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: var(--hoverbtn-black);
+}
+
+input:invalid {
+    border-color: var(--invalid-red);
+}
+
+
 @media screen and (max-width: 500px) {
+    /* TODO Center the button on mobile view */
     .newline{
         justify-content: center;
         align-items: center;
     }
+
+    .form-inputs input {
+        max-width: 3em;
+        gap: 1rem;
+    }
+
 }
