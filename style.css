@@ -107,8 +107,9 @@ label {
 
 .form-inputs {
     display: flex;
-    gap: 2rem;
+    gap: 3rem;
     margin-bottom: 3rem;
+    line-height: 1.5em;
 
 }
 
@@ -123,6 +124,11 @@ input:focus {
     border-color: var(--age-purple);
 }
 
+.error-msg {
+    font-size: 20px;
+    color: var(--invalid-red);
+}
+
 
 .results {
     display: flex;
@@ -130,16 +136,23 @@ input:focus {
     justify-content: center;
 }
 
-.years-diff {
-    font-family: PoppinsXBItalic;
-    font-size: 48px;
-}
-
-.years-diff span {
-    color: var(--age-purple);
+.years-diff,
+.months-diff,
+.days-diff {
+    white-space: nowrap;
     font-family: PoppinsXBItalic;
     font-size: 72px;
 }
+
+.years-diff span,
+.months-diff span,
+.days-diff span {
+    color: var(--age-purple);
+    font-family: PoppinsXBItalic;
+    font-size: 96px;
+}
+
+
 
 button {
     background-color: var(--age-purple);
