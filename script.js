@@ -17,7 +17,9 @@ const NEWLINE_REF = document.querySelector(".newline")
 let new_break
 
 const CURRENT_DATE = new Date();
-const USER_DATE = new Date(2021,5,10);
+const USER_DATE = new Date(1996,4,15);
+
+console.log(USER_DATE.getFullYear());
 
 
 
@@ -28,19 +30,40 @@ const USER_DATE = new Date(2021,5,10);
 
 // Function code source
 
-//https:tutorial.eyehunts.com/js/javascript-difference-between-two-dates-in-years-months-days/
+//https://www.tutorialstonight.com/age-calculator-in-javascript/
 
-const getDateDiff = (startDate,endDate) => {
-    const oneDayMs = 1000 * 60 * 60 * 24;
-    if (startDate > endDate) {
-        return;
+const getDateDiff = (userDate,today) => {
+
+    if (userDate > today) {
+        alert("Date cant be in the future")
+        return
     }
-    const diffMs = endDate.getTime() - startDate.getTime();
-    const diffDays = Math.floor(diffMs / oneDayMs);
-    const years = Math.floor(diffDays / 365);
-    const months = Math.floor(diffDays / 30.44) % 12;
-    const days = diffDays - (years * 365) - (Math.floor(months * 30.44));
-    return { years, months, days };
+    let years
+    if (today.getMonth() > userDate.getMonth() || (today.getMonth() == userDate.getMonth() && today.getDate() >= userDate.getDate())) {
+        years = today.getFullYear() - userDate.getFullYear()
+    } else {
+        years = today.getFullYear() - userDate.getFullYear() - 1;
+    }
+
+    let months;
+    if (today.getDate() >= userDate.getDate()) {
+        months = today.getMonth() - userDate.getMonth();
+    } else if (today.getDate() < userDate.getDate()) {
+        months = today.getMonth() - userDate.getMonth() - 1;
+    }
+
+    months = months < 0 ? months + 12 : months;
+
+    let days;
+
+    let monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    if (today.getDate() >= userDate.getDate()) {
+        days = today.getDate() - userDate.getDate()
+    } else {
+        days = today.getDate() - userDate.getDate() + monthDays[userDate.getMonth()]
+    }
+
+    return {years,months,days}
 }
 
 console.log(getDateDiff(USER_DATE,CURRENT_DATE))
