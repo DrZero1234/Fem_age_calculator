@@ -1,27 +1,29 @@
 // Media Query JS: https://css-tricks.com/working-with-javascript-media-queries/
 
-// HTML ELEMENTS
+// Hidden error message elements
 
 const DAY_ERROR = document.getElementById("day-error")
 const MONTH_ERROR = document.getElementById("month-error");
 const YEAR_ERROR = document.getElementById("year-error")
 
+// Form elements
 const FORM_ELEM = document.querySelector("form");
 const DAY_ELEM = document.getElementById("day");
 const MONTH_ELEM = document.getElementById("month");
 const YEAR_ELEM = document.getElementById("year")
 const SUBMIT_BTN = document.querySelector("button")
 
+// Result elements
 const YEARS_DIFF = document.querySelector(".years-diff").children[0]
 const MONTHS_DIFF = document.querySelector(".months-diff").children[0];
 const DAYS_DIFF = document.querySelector(".days-diff").children[0];
 
-
 const NEWLINE_REF = document.querySelector(".newline")
 let new_break
 
+
+// Gets today´s date
 const CURRENT_DATE = new Date();
-const USER_DATE = new Date(1,1,1);
 
 
 
@@ -87,12 +89,18 @@ const setMaxDays = () => {
     }
 }
 
+
+// THe validators below take care of displaying the error messages if an incorrect
+// day/month or year has been sent
 const validate_year = () => {
     if (YEAR_ELEM.validity.valueMissing) {
         YEAR_ERROR.textContent = "This field is required"
         return false
     } else if (+YEAR_ELEM.value > +CURRENT_DATE.getFullYear()) {
         YEAR_ERROR.textContent = "Must be in the past"
+        return false
+    } else if (+YEAR_ELEM.value < 1) {
+        YEAR_ERROR.textContent = "Must be valid year"
         return false
     }
     YEAR_ERROR.textContent = ""
@@ -113,8 +121,8 @@ const validtate_month = () => {
 
 const validate_day = () => {
     if (DAY_ELEM.validity.valueMissing) {
-    DAY_ERROR.textContent = "This field is required";
-    return false
+        DAY_ERROR.textContent = "This field is required";
+        return false
     } else if (DAY_ELEM.validity.rangeOverflow || DAY_ELEM.validity.rangeUnderflow) {
         DAY_ERROR.textContent = "Must be a valid day";
         return false
@@ -128,6 +136,7 @@ const validate_day = () => {
 
 
 const handleClick = (e) => {
+    // checks if any day month or year has been invalid
     e.preventDefault();
     if (!validate_year()) {
         validate_year()
@@ -139,7 +148,7 @@ const handleClick = (e) => {
         validate_day()
     }
 
-    if (!validate_year() || !validtate_month() || validate_day() ) {
+    if (!validate_year() || !validtate_month() || !validate_day() ) {
         return
     }
     if (YEAR_ELEM && MONTH_ELEM && DAY_ELEM) {
@@ -157,6 +166,7 @@ const handleClick = (e) => {
 
 
 // Inserting the element at the end of the newline class div.
+
 const insert_breakpoint = (parentRef, new_elem) => {
     new_break = document.createElement("hr");
     new_break.className = "breakpoint";
@@ -166,6 +176,7 @@ const insert_breakpoint = (parentRef, new_elem) => {
 
 
 // Changing the button position based on the screensize using the insert_breakpoint
+// This ensures that the input button will be in the middle for mobile view
 const change_btn = (condition) => {
     if (condition.matches) {
         insert_breakpoint(NEWLINE_REF, new_break)
@@ -177,6 +188,8 @@ const change_btn = (condition) => {
     }
 }
 
+
+// A Leap year checker
 const isLeapYear = (year) => {
     if ((0 == year % 4) && (0 != year % 100) || (0 == year % 400)) {
         return true
@@ -184,16 +197,18 @@ const isLeapYear = (year) => {
     return false
 }
 
+
+// Adds the change btn function to the mobile media query
 var condition = window.matchMedia("(max-width: 500px)")
 condition.addListener(change_btn)
-
-
 change_btn(condition);
 
 FORM_ELEM.addEventListener("submit", e => {
     handleClick(e)
 });
 
+
+// Changes the day input´s max attribute after ever month or year input
 MONTH_ELEM.addEventListener("input",setMaxDays)
 YEAR_ELEM.addEventListener("input", setMaxDays)
 
