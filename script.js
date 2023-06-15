@@ -2,6 +2,10 @@
 
 // HTML ELEMENTS
 
+const DAY_ERROR = document.getElementById("day-error")
+const MONTH_ERROR = document.getElementById("month-error");
+const YEAR_ERROR = document.getElementById("year-error")
+
 const FORM_ELEM = document.querySelector("form");
 const DAY_ELEM = document.getElementById("day");
 const MONTH_ELEM = document.getElementById("month");
@@ -17,9 +21,11 @@ const NEWLINE_REF = document.querySelector(".newline")
 let new_break
 
 const CURRENT_DATE = new Date();
-const USER_DATE = new Date(1996,4,15);
+const USER_DATE = new Date(1,1,1);
 
-console.log(USER_DATE.getFullYear());
+
+
+
 
 
 
@@ -32,12 +38,9 @@ console.log(USER_DATE.getFullYear());
 
 //https://www.tutorialstonight.com/age-calculator-in-javascript/
 
-const getDateDiff = (userDate,today) => {
 
-    if (userDate > today) {
-        alert("Date cant be in the future")
-        return
-    }
+
+const getDateDiff = (userDate,today) => {
     let years
     if (today.getMonth() > userDate.getMonth() || (today.getMonth() == userDate.getMonth() && today.getDate() >= userDate.getDate())) {
         years = today.getFullYear() - userDate.getFullYear()
@@ -68,8 +71,77 @@ const getDateDiff = (userDate,today) => {
 
 console.log(getDateDiff(USER_DATE,CURRENT_DATE))
 
+
+// Sets the max days of the day depending on the value of the month and potentially year input
+const setMaxDays = () => {
+    const days_30 = [4,6,9,11];
+    const days_31 = [1,3,5,7,8,10,12];
+    if (days_30.includes(+MONTH_ELEM.value)) {
+        DAY_ELEM.setAttribute("max", 30)
+    } else if (days_31.includes(+MONTH_ELEM.value)) {
+        DAY_ELEM.setAttribute("max", 31)
+    } else if (+MONTH_ELEM.value === 2 && isLeapYear(+YEAR_ELEM.value)) {
+        DAY_ELEM.setAttribute("max", 29)
+    } else if (+MONTH_ELEM.value === 2 && !isLeapYear(YEAR_ELEM.value)) {
+        DAY_ELEM.setAttribute("max", 28)
+    }
+}
+
+const validate_year = () => {
+    if (YEAR_ELEM.validity.valueMissing) {
+        YEAR_ERROR.textContent = "This field is required"
+        return false
+    } else if (+YEAR_ELEM.value > +CURRENT_DATE.getFullYear()) {
+        YEAR_ERROR.textContent = "Must be in the past"
+        return false
+    }
+    YEAR_ERROR.textContent = ""
+    return true
+}
+
+const validtate_month = () => {
+    if (MONTH_ELEM.validity.valueMissing) {
+        MONTH_ERROR.textContent = "This field is required";
+        return false
+    } else if (MONTH_ELEM.validity.rangeOverflow || MONTH_ELEM.validity.rangeUnderflow) {
+        MONTH_ERROR.textContent = "Must be a valid month";
+        return false
+    }
+    MONTH_ERROR.textContent = ""
+    return true
+}
+
+const validate_day = () => {
+    if (DAY_ELEM.validity.valueMissing) {
+    DAY_ERROR.textContent = "This field is required";
+    return false
+    } else if (DAY_ELEM.validity.rangeOverflow || DAY_ELEM.validity.rangeUnderflow) {
+        DAY_ERROR.textContent = "Must be a valid day";
+        return false
+    }
+    DAY_ERROR.textContent = ""
+    return true
+}
+
+
+
+
+
 const handleClick = (e) => {
     e.preventDefault();
+    if (!validate_year()) {
+        validate_year()
+    }
+    if (!validtate_month()) {
+        validtate_month()
+    }
+    if (!validate_day()) {
+        validate_day()
+    }
+
+    if (!validate_year() || !validtate_month() || validate_day() ) {
+        return
+    }
     if (YEAR_ELEM && MONTH_ELEM && DAY_ELEM) {
         let user_date = new Date(+YEAR_ELEM.value,+MONTH_ELEM.value-1,+DAY_ELEM.value)
         date_diff = getDateDiff(user_date,CURRENT_DATE);
@@ -105,13 +177,26 @@ const change_btn = (condition) => {
     }
 }
 
+const isLeapYear = (year) => {
+    if ((0 == year % 4) && (0 != year % 100) || (0 == year % 400)) {
+        return true
+    }
+    return false
+}
+
 var condition = window.matchMedia("(max-width: 500px)")
 condition.addListener(change_btn)
 
 
 change_btn(condition);
 
-SUBMIT_BTN.addEventListener("click", e => {
+FORM_ELEM.addEventListener("submit", e => {
     handleClick(e)
 });
+
+MONTH_ELEM.addEventListener("input",setMaxDays)
+YEAR_ELEM.addEventListener("input", setMaxDays)
+
+
+
 
