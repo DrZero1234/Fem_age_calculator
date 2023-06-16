@@ -71,9 +71,6 @@ const getDateDiff = (userDate,today) => {
     return {years,months,days}
 }
 
-console.log(getDateDiff(USER_DATE,CURRENT_DATE))
-
-
 // Sets the max days of the day depending on the value of the month and potentially year input
 const setMaxDays = () => {
     const days_30 = [4,6,9,11];

@@ -33,11 +33,13 @@ Users should be able to:
   - The date is invalid e.g. 31/04/1991 (there are 30 days in April)
 - View the optimal layout for the interface depending on their device's screen size
 - See hover and focus states for all interactive elements on the page
-- **Bonus**: See the age numbers animate to their final number when the form is submitted
+- **Bonus**: See the age numbers animate to their final number when the form is submitted (didnt do this)
 
 ### Screenshot
 
-![](./screenshot.jpg)
+![Desktop view](./Calculator_desktop.png)
+![Errors](./Calculator_error.png)
+![Mobile view](./Calculator_mobile.png)
 
 Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
 

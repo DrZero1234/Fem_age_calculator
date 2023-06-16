@@ -155,6 +155,7 @@ input:focus {
     white-space: nowrap;
     font-family: PoppinsXBItalic;
     font-size: 72px;
+    transform: 1s;
 }
 
 .years-diff span,
