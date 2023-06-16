@@ -1,4 +1,4 @@
-// Media Query JS: https://css-tricks.com/working-with-javascript-media-queries/
+
 
 // Hidden error message elements
 
@@ -38,7 +38,6 @@ const CURRENT_DATE = new Date();
 
 // Function code source
 
-//https://www.tutorialstonight.com/age-calculator-in-javascript/
 
 
 
